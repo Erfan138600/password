@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پسورد لیست ساز حرفه‌ای عرفان علیخانی</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap');
+        
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #33ff00;
+            overflow-x: hidden;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .terminal {
+            background-color: rgba(0, 10, 2, 0.85);
+            border: 1px solid #33ff00;
+            border-radius: 5px;
+            box-shadow: 0 0 15px #33ff00, inset 0 0 10px rgba(51, 255, 0, 0.3);
+            position: relative;
+            overflow: visible;
+        }
+        
+        .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #33ff00, transparent);
+            animation: scanner 3s linear infinite;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 5px #33ff00, 0 0 10px #33ff00;
+        }
+        
+        .super-glow-text {
+            text-shadow: 0 0 5px #33ff00, 0 0 10px #33ff00, 0 0 20px #33ff00;
+        }
+        
+        .password-item {
+            border-bottom: 1px dashed rgba(51, 255, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .password-item:hover {
+            background-color: rgba(51, 255, 0, 0.1);
+            transform: scale(1.01);
+        }
+        
+        .type-effect {
+            overflow: hidden;
+            border-right: 2px solid #33ff00;
+            white-space: nowrap;
+            margin: 0;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        .btn-hacker {
+            border: 1px solid #33ff00;
+            color: #33ff00;
+            background-color: rgba(0, 10, 2, 0.5);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px #33ff00;
+        }
+        
+        .btn-hacker:hover {
+            background-color: rgba(51, 255, 0, 0.2);
+            box-shadow: 0 0 10px #33ff00, 0 0 20px #33ff00;
+            transform: translateY(-2px);
+        }
+        
+        .btn-hacker:active {
+            transform: translateY(1px);
+        }
+        
+        .form-input {
+            background-color: rgba(0, 10, 2, 0.9);
+            border: 1px solid #33ff00;
+            color: #33ff00;
+            box-shadow: inset 0 0 5px rgba(51, 255, 0, 0.3);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(51, 255, 0, 0.3), inset 0 0 5px rgba(51, 255, 0, 0.3);
+        }
+        
+        .checkbox-hacker {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #33ff00;
+            border-radius: 3px;
+            background-color: rgba(0, 10, 2, 0.9);
+            display: inline-block;
+            position: relative;
+            margin-left: 5px;
+            vertical-align: middle;
+            box-shadow: 0 0 5px rgba(51, 255, 0, 0.3);
+            cursor: pointer;
+        }
+        
+        .checkbox-hacker:checked {
+            background-color: rgba(51, 255, 0, 0.3);
+        }
+        
+        .checkbox-hacker:checked::after {
+            content: "✓";
+            color: #33ff00;
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .loading:after {
+            content: ' .';
+            animation: dots 1s steps(5, end) infinite;
+        }
+        
+        @keyframes scanner {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #33ff00 }
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ' .'; }
+            40% { content: ' ..'; }
+            60% { content: ' ...'; }
+            80% { content: ' ....'; }
+            100% { content: ' .....'; }
+        }
+        
+        .glitch {
+            position: relative;
+            animation: glitch 1s linear infinite;
+        }
+        
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px, 0) skew(0deg); }
+            4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+            62% { transform: translate(0, 0) skew(5deg); }
+        }
+        
+        .glitch:before,
+        .glitch:after {
+            content: attr(title);
+            position: absolute;
+            left: 0;
+        }
+        
+        .glitch:before {
+            animation: glitchTop 1s linear infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+        }
+        
+        @keyframes glitchTop {
+            2%, 64% { transform: translate(2px, -2px); }
+            4%, 60% { transform: translate(-2px, 2px); }
+            62% { transform: translate(13px, -1px) skew(-13deg); }
+        }
+        
+        .glitch:after {
+            animation: glitchBottom 1.5s linear infinite;
+            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+        }
+        
+        @keyframes glitchBottom {
+            2%, 64% { transform: translate(-2px, 0); }
+            4%, 60% { transform: translate(-2px, 0); }
+            62% { transform: translate(-22px, 5px) skew(21deg); }
+        }
+        
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 10, 2, 0.9);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #33ff00;
+            border-radius: 10px;
+            box-shadow: 0 0 5px #33ff00;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #29cc00;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(to right, #33ff00, #00ff9d);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            box-shadow: 0 0 5px #33ff00;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4 md:px-8">
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+    
+    <header class="mb-8">
+        <div class="terminal p-4 mb-4 flex flex-col sm:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-2xl md:text-4xl font-bold super-glow-text glitch" title="پسورد لیست ساز حرفه‌ای">پسورد لیست ساز حرفه‌ای</h1>
+                <p class="text-lg glow-text type-effect">| طراحی و پیاده‌سازی توسط عرفان علیخانی |</p>
+            </div>
+            <div class="text-center mt-4 sm:mt-0">
+                <div class="text-sm opacity-80">www.erfan-web.ir</div>
+                <div class="flex items-center justify-center text-xs mt-2">
+                    <span class="inline-block w-3 h-3 bg-green-400 animate-pulse rounded-full mr-1"></span>
+                    <span>سیستم فعال است</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="terminal p-5 mb-8 relative">
+            <h2 class="text-xl font-bold mb-4 glow-text"><i class="fas fa-cog fa-spin mr-2"></i>تنظیمات ساخت پسورد</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <label for="keywords" class="block mb-2 font-semibold">کلمه یا متن پایه:</label>
+                        <textarea id="keywords" rows="3" dir="auto" placeholder="کلمه یا متن مورد نظر خود را وارد کنید..." class="form-input w-full p-3 rounded"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="count" class="block mb-2 font-semibold">تعداد پسوردها:</label>
+                        <div class="flex items-center">
+                            <input type="range" id="count-range" min="5" max="1000" value="20" class="w-full mr-4 cursor-pointer">
+                            <input type="number" id="count" class="form-input w-24 p-2 rounded text-center" value="20" min="5" max="1000">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="minLength" class="block mb-2 font-semibold">طول پسورد:</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-sm block mb-1">حداقل:</label>
+                                <input type="number" id="minLength" class="form-input w-full p-2 rounded text-center" value="8" min="4" max="50">
+                            </div>
+                            <div>
+                                <label class="text-sm block mb-1">حداکثر:</label>
+                                <input type="number" id="maxLength" class="form-input w-full p-2 rounded text-center" value="16" min="4" max="50">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="mb-4">
+                        <label class="block mb-2 font-semibold">گزینه‌های ترکیب:</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <label class="flex items-center mb-2">
+                                <input type="checkbox" class="checkbox-hacker" id="useUppercase" checked>
+                                <span>حروف بزرگ (A-Z)</span>
+                            </label>
+                            <label class="flex items-center mb-2">
+                                <input type="checkbox" class="checkbox-hacker" id="useLowercase" checked>
+                                <span>حروف کوچک (a-z)</span>
+                            </label>
+                            <label class="flex items-center mb-2">
+                                <input type="checkbox" class="checkbox-hacker" id="useNumbers" checked>
+                                <span>اعداد (0-9)</span>
+                            </label>
+                            <label class="flex items-center mb-2">
+                                <input type="checkbox" class="checkbox-hacker" id="useSpecial" checked>
+                                <span>کاراکتر خاص (!@#$)</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block mb-2 font-semibold">روش‌های ترکیب:</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <label class="flex items-center mb-2">
+                                <input type="checkbox" class="checkbox-hacker" id="usePrefixSuffix" checked>
+                                <span>اضافه کردن پیشوند/پسوند</span>
+                            </label>
+                            <label class="flex items-center mb-2">
+                                <input type="checkbox" class="checkbox-hacker" id="useReplacement" checked>
+                                <span>جایگزینی حروف (a→4, s→$)</span>
+                            </label>
+                            <label class="flex items-center mb-2">
+                                <input type="checkbox" class="checkbox-hacker" id="useCombination" checked>
+                                <span>ترکیب کلمات</span>
+                            </label>
+                            <label class="flex items-center mb-2">
+                                <input type="checkbox" class="checkbox-hacker" id="useCapitalization" checked>
+                                <span>تغییر بزرگ/کوچکی حروف</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mt-6">
+                        <button id="advancedToggle" class="btn-hacker px-3 py-2 rounded text-sm flex items-center">
+                            <i class="fas fa-sliders-h ml-1"></i> تنظیمات پیشرفته
+                        </button>
+                        <button id="generateButton" class="btn-hacker px-6 py-3 rounded-lg text-lg font-bold flex items-center justify-center min-w-[160px]">
+                            <i class="fas fa-key ml-2"></i> ساخت پسورد
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="advanced" class="mt-6 hidden border-t border-green-500 pt-4">
+                <h3 class="text-lg font-bold mb-3 glow-text">تنظیمات پیشرفته</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2">جداکننده در لیست خروجی:</label>
+                        <select id="separator" class="form-input w-full p-2 rounded">
+                            <option value="newline">هر پسورد در یک خط</option>
+                            <option value="comma">جدا شده با کاما</option>
+                            <option value="semicolon">جدا شده با نقطه‌ویرگول</option>
+                            <option value="space">جدا شده با فاصله</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2">فیلتر پسوردها:</label>
+                        <select id="passwordFilter" class="form-input w-full p-2 rounded">
+                            <option value="none">بدون فیلتر</option>
+                            <option value="strong">فقط پسوردهای قوی</option>
+                            <option value="medium">حداقل قدرت متوسط</option>
+                            <option value="unique">فقط پسوردهای منحصر به فرد</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <label class="block mb-2">کاراکترهای خاص مجاز:</label>
+                    <input type="text" id="specialChars" class="form-input w-full p-2 rounded" value="!@#$%^&*()_+-=[]{};:,.<>/?|\" dir="ltr">
+                </div>
+            </div>
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        
+        <div id="resultContainer" class="terminal p-5 mb-8 hidden">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold glow-text"><i class="fas fa-list-ul mr-2"></i>لیست پسوردها</h2>
+                <div class="flex">
+                    <button id="exportButton" class="btn-hacker px-3 py-1 rounded flex items-center ml-2">
+                        <i class="fas fa-download ml-1"></i> ذخیره
+                    </button>
+                    <button id="copyAllButton" class="btn-hacker px-3 py-1 rounded flex items-center">
+                        <i class="fas fa-copy ml-1"></i> کپی همه
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mb-4 flex items-center justify-between text-sm bg-black bg-opacity-50 p-2 rounded">
+                <div>تعداد: <span id="passwordCount" class="font-bold">0</span> پسورد</div>
+                <div id="strengthInfo">قدرت متوسط: <span id="averageStrength" class="font-bold">0%</span></div>
+            </div>
+            
+            <div class="relative">
+                <div id="loadingPasswords" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 z-10 hidden">
+                    <div class="text-center">
+                        <div class="text-2xl mb-2 loading">در حال ساخت پسورد</div>
+                        <div class="text-sm" id="progressText">0%</div>
+                    </div>
+                </div>
+                
+                <div id="passwordList" class="bg-black bg-opacity-50 p-4 rounded max-h-[500px] overflow-auto">
+                    <div class="text-center my-12 text-gray-500">
+                        <i class="fas fa-key text-5xl mb-4 block opacity-30"></i>
+                        <div class="text-lg">هنوز پسوردی ساخته نشده است</div>
+                        <div class="text-sm mt-2">برای شروع، دکمه "ساخت پسورد" را کلیک کنید</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="terminal p-5">
+            <h2 class="text-xl font-bold mb-4 glow-text"><i class="fas fa-shield-alt mr-2"></i>راهنمای امنیت پسورد</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold mb-2">پسورد قوی چیست؟</h3>
+                    <ul class="list-disc pr-5 space-y-1 text-sm">
+                        <li>حداقل ۸ کاراکتر طول داشته باشد</li>
+                        <li>ترکیبی از حروف بزرگ و کوچک باشد</li>
+                        <li>شامل اعداد و کاراکترهای خاص باشد</li>
+                        <li>از کلمات معمول فرهنگ لغت استفاده نکند</li>
+                        <li>اطلاعات شخصی قابل حدس (مثل تاریخ تولد) نباشد</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold mb-2">توصیه‌های امنیتی</h3>
+                    <ul class="list-disc pr-5 space-y-1 text-sm">
+                        <li>برای هر سرویس از پسورد متفاوتی استفاده کنید</li>
+                        <li>از نرم‌افزارهای مدیریت پسورد استفاده کنید</li>
+                        <li>پسوردهای خود را دوره‌ای تغییر دهید</li>
+                        <li>از تأیید هویت دو مرحله‌ای استفاده کنید</li>
+                        <li>پسوردهای خود را در جای امن نگهداری کنید</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-4 text-xs text-center opacity-70">
+                <p>توجه: این ابزار صرفاً برای اهداف آموزشی و امنیتی طراحی شده است. مسئولیت استفاده از پسوردهای تولید شده با کاربر است.</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="mt-8 text-center">
+        <div class="terminal p-3">
+            <div class="mb-2 super-glow-text">عرفان علیخانی</div>
+            <div class="text-sm">www.erfan-web.ir</div>
+            <div class="text-xs mt-2 opacity-70">تمامی حقوق محفوظ است &copy; 2023</div>
+        </div>
+    </footer>
+
+    <script>
+        // Matrix background effect
+        (function setupMatrixBackground() {
+            const canvas = document.getElementById('matrixCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+            const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const persian = 'آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی';
+            const nums = '0123456789';
+            const hackerChars = '01@#$%&*!?><~';
+            
+            const chars = hackerChars + latin + nums;
+            
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            
+            const drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -100);
+            }
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#0f0';
+                ctx.font = `${fontSize}px monospace`;
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                    
+                    ctx.fillStyle = i % 5 === 0 ? '#fff' : '#0f0';
+                    if(i % 15 === 0) {
+                        ctx.fillStyle = '#0ff';
+                    }
+                    
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    
+                    drops[i]++;
+                }
+            }
+            
+            setInterval(draw, 33);
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        })();
+        
+        // Password Generator Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const generateButton = document.getElementById('generateButton');
+            const countRange = document.getElementById('count-range');
+            const countInput = document.getElementById('count');
+            const resultContainer = document.getElementById('resultContainer');
+            const passwordList = document.getElementById('passwordList');
+            const passwordCount = document.getElementById('passwordCount');
+            const loadingPasswords = document.getElementById('loadingPasswords');
+            const progressBar = document.getElementById('progress');
+            const progressText = document.getElementById('progressText');
+            const advancedToggle = document.getElementById('advancedToggle');
+            const advancedSection = document.getElementById('advanced');
+            const copyAllButton = document.getElementById('copyAllButton');
+            const exportButton = document.getElementById('exportButton');
+            const averageStrength = document.getElementById('averageStrength');
+            
+            // Sync the range and number inputs
+            countRange.addEventListener('input', () => {
+                countInput.value = countRange.value;
+            });
+            
+            countInput.addEventListener('input', () => {
+                if (parseInt(countInput.value) > 1000) {
+                    countInput.value = 1000;
+                }
+                if (parseInt(countInput.value) < 5) {
+                    countInput.value = 5;
+                }
+                countRange.value = countInput.value;
+            });
+            
+            // Toggle advanced settings
+            advancedToggle.addEventListener('click', () => {
+                advancedSection.classList.toggle('hidden');
+                advancedToggle.innerHTML = advancedSection.classList.contains('hidden') 
+                    ? '<i class="fas fa-sliders-h ml-1"></i> تنظیمات پیشرفته'
+                    : '<i class="fas fa-chevron-up ml-1"></i> بستن تنظیمات پیشرفته';
+            });
+            
+            // Generate Passwords
+            generateButton.addEventListener('click', function() {
+                const keywords = document.getElementById('keywords').value.trim();
+                if (!keywords) {
+                    showAlert('لطفاً کلمه یا متن پایه را وارد کنید.');
+                    return;
+                }
+                
+                const count = parseInt(document.getElementById('count').value) || 20;
+                const useUppercase = document.getElementById('useUppercase').checked;
+                const useLowercase = document.getElementById('useLowercase').checked;
+                const useNumbers = document.getElementById('useNumbers').checked;
+                const useSpecial = document.getElementById('useSpecial').checked;
+                const usePrefixSuffix = document.getElementById('usePrefixSuffix').checked;
+                const useReplacement = document.getElementById('useReplacement').checked;
+                const useCombination = document.getElementById('useCombination').checked;
+                const useCapitalization = document.getElementById('useCapitalization').checked;
+                const minLength = parseInt(document.getElementById('minLength').value) || 8;
+                const maxLength = parseInt(document.getElementById('maxLength').value) || 16;
+                const specialChars = document.getElementById('specialChars').value || '!@#$%^&*()_+-=[]{}|;:,.<>/?';
+                const passwordFilter = document.getElementById('passwordFilter').value;
+                const separator = document.getElementById('separator').value;
+                
+                // Validate inputs
+                if (!useUppercase && !useLowercase && !useNumbers && !useSpecial) {
+                    showAlert('حداقل یک نوع کاراکتر را انتخاب کنید.');
+                    return;
+                }
+                
+                if (minLength > maxLength) {
+                    showAlert('حداقل طول نمی‌تواند از حداکثر طول بیشتر باشد.');
+                    return;
+                }
+                
+                // Show loading
+                loadingPasswords.classList.remove('hidden');
+                resultContainer.classList.remove('hidden');
+                progressBar.style.width = '0%';
+                
+                // Generate passwords in chunks to prevent UI freezing
+                const keywordsList = keywords.split(/[\s,]+/).filter(k => k.length > 0);
+                const totalPasswords = count;
+                const passwordsPerBatch = 50;
+                let generatedPasswords = [];
+                let currentBatch = 0;
+                let progress = 0;
+                
+                const generatePasswordBatch = () => {
+                    const batchSize = Math.min(passwordsPerBatch, totalPasswords - generatedPasswords.length);
+                    const newPasswords = [];
+                    
+                    for (let i = 0; i < batchSize; i++) {
+                        const password = generatePassword(
+                            keywordsList, 
+                            minLength, 
+                            maxLength,
+                            useUppercase,
+                            useLowercase,
+                            useNumbers,
+                            useSpecial,
+                            usePrefixSuffix,
+                            useReplacement,
+                            useCombination,
+                            useCapitalization,
+                            specialChars
+                        );
+                        
+                        newPasswords.push(password);
+                    }
+                    
+                    generatedPasswords = [...generatedPasswords, ...newPasswords];
+                    currentBatch++;
+                    
+                    progress = Math.min(100, Math.floor((generatedPasswords.length / totalPasswords) * 100));
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = progress + '%';
+                    
+                    if (generatedPasswords.length < totalPasswords) {
+                        setTimeout(generatePasswordBatch, 0);
+                    } else {
+                        // All passwords generated
+                        setTimeout(() => {
+                            finishPasswordGeneration(generatedPasswords, passwordFilter, separator);
+                        }, 500);
+                    }
+                };
+                
+                // Start generating passwords
+                setTimeout(generatePasswordBatch, 10);
+            });
+            
+            function finishPasswordGeneration(passwords, filter, separator) {
+                // Filter passwords if needed
+                if (filter !== 'none') {
+                    passwords = filterPasswords(passwords, filter);
+                }
+                
+                // Display passwords
+                displayPasswords(passwords, separator);
+                
+                // Hide loading
+                loadingPasswords.classList.add('hidden');
+                progressBar.style.width = '100%';
+                
+                // Calculate average strength
+                const totalStrength = passwords.reduce((sum, pwd) => sum + calculatePasswordStrength(pwd), 0);
+                const avgStrength = Math.floor(totalStrength / passwords.length);
+                averageStrength.textContent = avgStrength + '%';
+                
+                // Set strength color
+                if (avgStrength >= 80) {
+                    averageStrength.classList.add('text-green-400');
+                    averageStrength.classList.remove('text-yellow-400', 'text-red-400');
+                } else if (avgStrength >= 50) {
+                    averageStrength.classList.add('text-yellow-400');
+                    averageStrength.classList.remove('text-green-400', 'text-red-400');
+                } else {
+                    averageStrength.classList.add('text-red-400');
+                    averageStrength.classList.remove('text-green-400', 'text-yellow-400');
+                }
+                
+                // Add glitch effect when completed
+                setTimeout(() => {
+                    progressBar.style.width = '0%';
+                }, 1000);
+            }
+            
+            function generatePassword(
+                keywordsList, 
+                minLength, 
+                maxLength,
+                useUppercase,
+                useLowercase,
+                useNumbers,
+                useSpecial,
+                usePrefixSuffix,
+                useReplacement,
+                useCombination,
+                useCapitalization,
+                specialChars
+            ) {
+                // Choose a random or combination of keywords as base
+                let baseWord = '';
+                
+                if (useCombination && keywordsList.length > 1 && Math.random() > 0.5) {
+                    // Combine two random keywords
+                    const keyword1 = keywordsList[Math.floor(Math.random() * keywordsList.length)];
+                    const keyword2 = keywordsList[Math.floor(Math.random() * keywordsList.length)];
+                    baseWord = keyword1 + keyword2;
+                } else {
+                    // Use a single keyword
+                    baseWord = keywordsList[Math.floor(Math.random() * keywordsList.length)];
+                }
+                
+                // Apply capitalization variations
+                if (useCapitalization && Math.random() > 0.5) {
+                    if (Math.random() > 0.5) {
+                        // Capitalize first letter
+                        baseWord = baseWord.charAt(0).toUpperCase() + baseWord.slice(1);
+                    } else if (Math.random() > 0.5) {
+                        // Capitalize random letters
+                        baseWord = baseWord.split('').map(char => 
+                            Math.random() > 0.5 ? char.toUpperCase() : char
+                        ).join('');
+                    } else {
+                        // ALL CAPS
+                        baseWord = baseWord.toUpperCase();
+                    }
+                }
+                
+                // Apply letter replacements (leet speak)
+                if (useReplacement && Math.random() > 0.3) {
+                    const replacements = {
+                        'a': ['4', '@'],
+                        'e': ['3'],
+                        'i': ['1', '!'],
+                        'o': ['0'],
+                        's': ['$', '5'],
+                        't': ['7', '+'],
+                        'b': ['8'],
+                        'g': ['9', '6'],
+                        'l': ['1'],
+                        'z': ['2']
+                    };
+                    
+                    for (const [letter, replacements] of Object.entries(replacements)) {
+                        if (baseWord.toLowerCase().includes(letter) && Math.random() > 0.5) {
+                            const replacement = replacements[Math.floor(Math.random() * replacements.length)];
+                            baseWord = baseWord.replace(new RegExp(letter, 'gi'), replacement);
+                        }
+                    }
+                }
+                
+                // Add prefix/suffix
+                if (usePrefixSuffix) {
+                    // Add number prefix/suffix
+                    if (useNumbers && Math.random() > 0.3) {
+                        const number = Math.floor(Math.random() * 9999);
+                        if (Math.random() > 0.5) {
+                            baseWord = number + baseWord;
+                        } else {
+                            baseWord = baseWord + number;
+                        }
+                    }
+                    
+                    // Add special character prefix/suffix
+                    if (useSpecial && Math.random() > 0.5) {
+                        const special = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
+                        if (Math.random() > 0.5) {
+                            baseWord = special + baseWord;
+                        } else {
+                            baseWord = baseWord + special;
+                        }
+                    }
+                }
+                
+                // Ensure minimum length by adding random characters
+                while (baseWord.length < minLength) {
+                    let charToAdd = '';
+                    const charType = Math.random();
+                    
+                    if (useUppercase && charType < 0.25) {
+                        charToAdd = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                    } else if (useLowercase && charType < 0.5) {
+                        charToAdd = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+                    } else if (useNumbers && charType < 0.75) {
+                        charToAdd = String.fromCharCode(48 + Math.floor(Math.random() * 10));
+                    } else if (useSpecial) {
+                        charToAdd = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
+                    } else {
+                        // Fallback to lowercase if nothing else is selected
+                        charToAdd = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+                    }
+                    
+                    if (Math.random() > 0.5) {
+                        baseWord = baseWord + charToAdd;
+                    } else {
+                        baseWord = charToAdd + baseWord;
+                    }
+                }
+                
+                // Ensure password doesn't exceed max length
+                if (baseWord.length > maxLength) {
+                    baseWord = baseWord.substring(0, maxLength);
+                }
+                
+                return baseWord;
+            }
+            
+            function calculatePasswordStrength(password) {
+                let score = 0;
+                
+                // Length
+                if (password.length >= 12) score += 30;
+                else if (password.length >= 8) score += 20;
+                else if (password.length >= 6) score += 10;
+                else score += 5;
+                
+                // Complexity
+                if (/[A-Z]/.test(password)) score += 15;
+                if (/[a-z]/.test(password)) score += 15;
+                if (/[0-9]/.test(password)) score += 15;
+                if (/[^A-Za-z0-9]/.test(password)) score += 25;
+                
+                // Variety of characters
+                const uniqueChars = new Set(password.split('')).size;
+                score += Math.min(20, uniqueChars);
+                
+                return Math.min(100, score);
+            }
+            
+            function getStrengthClass(strength) {
+                if (strength >= 80) return 'bg-green-500';
+                if (strength >= 60) return 'bg-green-400';
+                if (strength >= 40) return 'bg-yellow-400';
+                if (strength >= 20) return 'bg-yellow-600';
+                return 'bg-red-500';
+            }
+            
+            function filterPasswords(passwords, filter) {
+                switch (filter) {
+                    case 'strong':
+                        return passwords.filter(pwd => calculatePasswordStrength(pwd) >= 70);
+                    case 'medium':
+                        return passwords.filter(pwd => calculatePasswordStrength(pwd) >= 40);
+                    case 'unique':
+                        return [...new Set(passwords)];
+                    default:
+                        return passwords;
+                }
+            }
+            
+            function displayPasswords(passwords, separator) {
+                passwordList.innerHTML = '';
+                passwordCount.textContent = passwords.length;
+                
+                if (passwords.length === 0) {
+                    passwordList.innerHTML = '<div class="text-center my-12 text-gray-500"><i class="fas fa-exclamation-circle text-5xl mb-4 block opacity-30"></i><div class="text-lg">هیچ پسوردی با معیارهای انتخابی شما یافت نشد</div><div class="text-sm mt-2">لطفاً معیارها را تغییر داده و دوباره امتحان کنید</div></div>';
+                    return;
+                }
+                
+                passwords.forEach((password, index) => {
+                    const strength = calculatePasswordStrength(password);
+                    const strengthClass = getStrengthClass(strength);
+                    
+                    const item = document.createElement('div');
+                    item.className = 'password-item py-2 flex items-center justify-between';
+                    
+                    item.innerHTML = `
+                        <div class="flex items-center">
+                            <span class="text-sm w-8">${index + 1}.</span>
+                            <code class="font-mono bg-black bg-opacity-50 px-3 py-1 rounded select-all" dir="ltr">${password}</code>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-24 h-2 bg-gray-800 rounded-full overflow-hidden ml-2">
+                                <div class="${strengthClass}" style="width: ${strength}%; height: 100%"></div>
+                            </div>
+                            <button class="copy-btn text-xs btn-hacker px-2 py-1 rounded" data-password="${password}">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    `;
+                    passwordList.appendChild(item);
+                    
+                    // Add click event for copy button
+                    const copyBtn = item.querySelector('.copy-btn');
+                    copyBtn.addEventListener('click', function() {
+                        const password = this.getAttribute('data-password');
+                        copyToClipboard(password);
+                        this.innerHTML = '<i class="fas fa-check"></i>';
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-copy"></i>';
+                        }, 1000);
+                    });
+                });
+                
+                // Copy all button
+                copyAllButton.addEventListener('click', function() {
+                    let allPasswords = '';
+                    const sep = separator === 'newline' ? '\n' : 
+                               separator === 'comma' ? ', ' : 
+                               separator === 'semicolon' ? '; ' : ' ';
+                    
+                    passwords.forEach(pwd => {
+                        allPasswords += pwd + sep;
+                    });
+                    
+                    copyToClipboard(allPasswords.trim());
+                    this.innerHTML = '<i class="fas fa-check ml-1"></i> کپی شد';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy ml-1"></i> کپی همه';
+                    }, 1000);
+                });
+                
+                // Export button
+                exportButton.addEventListener('click', function() {
+                    const sep = separator === 'newline' ? '\n' : 
+                               separator === 'comma' ? ', ' : 
+                               separator === 'semicolon' ? '; ' : ' ';
+                    
+                    let content = '';
+                    passwords.forEach((pwd, idx) => {
+                        content += (idx+1) + '. ' + pwd + sep;
+                    });
+                    
+                    const blob = new Blob([content], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'password_list.txt';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            }
+            
+            function copyToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            
+            function showAlert(message) {
+                const alertBox = document.createElement('div');
+                alertBox.className = 'fixed top-8 left-1/2 transform -translate-x-1/2 bg-red-800 text-white px-6 py-3 rounded shadow-lg z-50 flex items-center';
+                alertBox.innerHTML = `
+                    <i class="fas fa-exclamation-triangle ml-2"></i>
+                    <span>${message}</span>
+                `;
+                document.body.appendChild(alertBox);
+                
+                setTimeout(() => {
+                    alertBox.style.opacity = '0';
+                    alertBox.style.transform = 'translate(-50%, -20px)';
+                    alertBox.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(alertBox);
+                    }, 500);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
